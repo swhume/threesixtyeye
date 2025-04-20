@@ -31,7 +31,8 @@ couple of weeks.
 
 These programs were developed using Python 3.12 and have not been tested using other versions.
 
-Ensure that the config.ini is present.
+Ensure that the config.ini is present. You will need to rename config-template.ini to config.ini. You will need
+to update the config.ini to use your GitHub token and the path to your threesixtyeye repository. 
 
 Ensure the config.ini includes a RawDataSource section with values for 
 * gh_token: your GitHub token
