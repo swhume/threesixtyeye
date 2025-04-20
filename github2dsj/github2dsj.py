@@ -49,10 +49,24 @@ def cli(file, path):
     """
     gh_path = __config.gh_repo_path_raw_data + file
     out_path = path.joinpath(file)
+    validate_github_token(__config.gh_token_raw_data)
     github_get_file(__config.gh_user_name_raw_data, __config.gh_repo_name_raw_data, gh_path,
                     out_path, github_token=__config.gh_token_raw_data)
     sys.stdout.write(str(out_path.resolve()))
     sys.stdout.flush()
+
+def validate_github_token(token):
+    """
+    Validate if the GitHub token is working properly.
+    """
+    if not token:
+        return False
+    headers = {'Authorization': f'token {token}'}
+    try:
+        r = requests.get('https://api.github.com/user', headers=headers)
+        return r.status_code == 200
+    except requests.exceptions.RequestException:
+        return False
 
 def github_get_file(username, repository_name, file_path, dataset_file_out, github_token=None):
     """
@@ -64,31 +78,45 @@ def github_get_file(username, repository_name, file_path, dataset_file_out, gith
     :param github_token: Optional authentication token for private repositories.
     :return: (dict) The decoded content of the file retrieved from the repository.
     """
+    if not username or not repository_name:
+        raise ValueError("GitHub username and repository name are required")
+
     headers = {}
     if github_token:
         headers['Authorization'] = f"token {github_token}"
     url = f'https://api.github.com/repos/{username}/{repository_name}/contents/{file_path}'
-    r = requests.get(url, headers=headers)
-    r.raise_for_status()
-    file_data = r.json()
-    if file_data['size'] > 1024 * 1024:
-        # use GitHub blobs API for files larger than 1MB
-        blob_url = f'https://api.github.com/repos/{username}/{repository_name}/git/blobs/{file_data["sha"]}'
-        blob_response = requests.get(blob_url, headers=headers)
-        blob_response.raise_for_status()
-        blob_data = blob_response.json()
-        file_content = base64.b64decode(blob_data["content"]).decode("utf-8")
-    else:
-        # use GitHub contents API for smaller files
-        content_url = file_data['download_url']
-        content_response = requests.get(content_url, headers=headers)
-        content_response.raise_for_status()
-        file_content = content_response.json()
-    # save dataset to file
-    with open(dataset_file_out, 'w') as f:
-        json.dump(file_content, f, indent=2)
-    return file_content
-
+    try:
+        r = requests.get(url, headers=headers)
+        r.raise_for_status()
+        file_data = r.json()
+        if file_data['size'] > 1024 * 1024:
+            # use GitHub blobs API for files larger than 1MB
+            blob_url = f'https://api.github.com/repos/{username}/{repository_name}/git/blobs/{file_data["sha"]}'
+            blob_response = requests.get(blob_url, headers=headers)
+            blob_response.raise_for_status()
+            blob_data = blob_response.json()
+            file_content = base64.b64decode(blob_data["content"]).decode("utf-8")
+        else:
+            # use GitHub contents API for smaller files
+            content_url = file_data['download_url']
+            content_response = requests.get(content_url, headers=headers)
+            content_response.raise_for_status()
+            file_content = content_response.json()
+        # save dataset to file
+        with open(dataset_file_out, 'w') as f:
+            json.dump(file_content, f, indent=2)
+        return file_content
+    except requests.exceptions.HTTPError as http_err:
+        if http_err.response.status_code == 401:
+            raise RuntimeError("GitHub authentication failed. Please check your token.") from http_err
+        elif http_err.response.status_code == 404:
+            raise RuntimeError(f"File or repository not found: {file_path}") from http_err
+        else:
+            raise RuntimeError(f"HTTP error occurred: {http_err}") from http_err
+    except requests.exceptions.RequestException as err:
+        raise RuntimeError(f"Error occurred while accessing GitHub: {err}") from err
+    except json.JSONDecodeError as err:
+        raise RuntimeError(f"Error decoding JSON content: {err}") from err
 
 if __name__ == "__main__":
     cli()
