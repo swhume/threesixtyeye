@@ -1,0 +1,156 @@
+{
+  "creationDateTime": "2024-02-14T11:46:09",
+  "datasetJSONVersion": "1.0.0",
+  "fileOID": "CDISCPILOT01.ie",
+  "referenceData": {
+    "studyOID": "CDISCPILOT01",
+    "metaDataVersionOID": "MDV.CDISCPILOT01",
+    "itemGroupData": {
+      "IG.IE": {
+        "records": 3,
+        "name": "IE",
+        "label": "Inclusion/Exclusion Criteria Not Met (IE",
+        "items": [
+          {
+            "OID": "ITEMGROUPDATASEQ",
+            "name": "ITEMGROUPDATASEQ",
+            "label": "Record Identifier",
+            "type": "integer"
+          },
+          {
+            "OID": "IT.IE.STUDYID",
+            "name": "STUDYID",
+            "label": "Study Identifier",
+            "type": "string",
+            "length": 12,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.SITEID",
+            "name": "SITEID",
+            "label": "Study Site Identifier",
+            "type": "string",
+            "length": 3,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.SUBJID",
+            "name": "SUBJID",
+            "label": "Subject Identifier for the Study",
+            "type": "string",
+            "length": 4,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.VISIT",
+            "name": "VISIT",
+            "label": "Visit Name",
+            "type": "string",
+            "length": 19,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.VISDAT",
+            "name": "VISDAT",
+            "label": "Visit Date",
+            "type": "string",
+            "length": 11,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.IEYN",
+            "name": "IEYN",
+            "label": "Any Inclusion/Exclusion Criteria Finding",
+            "type": "string",
+            "length": 3,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.IEDAT",
+            "name": "IEDAT",
+            "label": "Date of Inclusion/Exclusion Collection",
+            "type": "string",
+            "length": 11,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.IECAT",
+            "name": "IECAT",
+            "label": "Category of Inclusion/Exclusion Criteria",
+            "type": "string",
+            "length": 9,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.IETESTCD",
+            "name": "IETESTCD",
+            "label": "Inclusion/Exclusion Criterion Short Name",
+            "type": "string",
+            "length": 16,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.IETEST",
+            "name": "IETEST",
+            "label": "Inclusion/Exclusion Criterion",
+            "type": "string",
+            "length": 166,
+            "displayFormat": "."
+          },
+          {
+            "OID": "IT.IE.IEORRES",
+            "name": "IEORRES",
+            "label": "I/E Criterion Result",
+            "type": "string",
+            "length": 3,
+            "displayFormat": "."
+          }
+        ],
+        "itemData": [
+          [
+            1,
+            "CDISCPILOT01",
+            "703",
+            "1175",
+            "WEEK 2",
+            "31-DEC-2013",
+            "Yes",
+            "31-DEC-2013",
+            "EXCLUSION",
+            "EXCL16",
+            "Evidence from ECG recording at screening of any listed condition.",
+            "Yes"
+          ],
+          [
+            2,
+            "CDISCPILOT01",
+            "705",
+            "1382",
+            "WEEK 2",
+            "13-MAY-2013",
+            "Yes",
+            "13-MAY-2013",
+            "EXCLUSION",
+            "EXCL25",
+            "A history within the last 5 years of a primary or recurrent malignant disease (with exceptions, see list in protocol).",
+            "Yes"
+          ],
+          [
+            3,
+            "CDISCPILOT01",
+            "708",
+            "1372",
+            "WEEK 2",
+            "10-MAY-2013",
+            "Yes",
+            "10-MAY-2013",
+            "EXCLUSION",
+            "EXCL16",
+            "Evidence from ECG recording at screening of any listed condition.",
+            "Yes"
+          ]
+        ]
+      }
+    }
+  }
+}
