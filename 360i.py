@@ -88,14 +88,23 @@ def cdisc_pipeline(command, verbose=False):
     is_flag=True,
     help="Puts the program into verbose mode to display additional messages",
 )
+@click.option(
+    "-a",
+    "--api",
+    is_flag=True,
+    help="Posts the dataset to the Dataset-JSON API - requires an API Key in config.ini",
+)
 
-def cli(verbose):
+def cli(verbose, api = False):
     """
     Runs a 360i pipeline by invoking a series of subprocess commands in sequence.
     :param verbose: Boolean flag. Enables verbose mode to display additional messages
     """
     return_value = ""
-    command_funcs = [github2dsj, dsjupversion, dsjvalidate, dsj2api]
+    command_funcs = [github2dsj, dsjupversion, dsjvalidate]
+    if api:
+        command_funcs.append(dsj2api)
+
     for command in command_funcs:
         if verbose:
             print(f"Running command with input: {return_value}")
