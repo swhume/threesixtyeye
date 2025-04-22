@@ -92,7 +92,7 @@ def load_dsj_metadata(dsj10, dsn):
     """
     dsj_metadata = DS.DatasetMetadata(
         datasetJSONCreationDateTime=dsj10.get_creation_date_time(),
-        datasetJSONVersion="1.1",
+        datasetJSONVersion="1.1.0",
         fileOID=dsj10.get_file_oid(),
         dbLastModifiedDateTime=None,
         originator="360i",

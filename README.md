@@ -6,6 +6,8 @@ This project consists of basic example programs aimed at demonstrating the steps
 iteratively improved and extended. Some will be replaced by preferred alternatives. They're intended to provide initial 
 steps towards a 360i pipeline that will be made available via the CDISC 360i GitHub repo.
 
+Here's the official [CDISC 360i repository](https://github.com/cdisc-org/360i) if that's what you're trying to find.
+
 ## Introduction
 
 These programs are designed to function as command-line applications that can run as standalone applications or can 
