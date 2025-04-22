@@ -1,5 +1,5 @@
 # threesixtyeye
-
+![under development](https://img.shields.io/badge/under-development-blue)
 Sam Hume's public sandbox repo for 360i hacking. 
 
 This project consists of basic example programs aimed at demonstrating the steps in a 360i pipeline. They will be 
@@ -68,10 +68,15 @@ This command-line uses 4 small Python command-line applications to:
 3. Pipes the filename and path into a program that validates the dataset against the Dataset-JSON v1.1 model, 
 4. Uploads the dataset to the Dataset-JSON API (API Key required)
 
+Here is an example command-line which omits posting the dataset to the Dataset-JSON API since that requires
+an API key:
+```
+python3 github2dsj/github2dsj.py ie.json --path ./data | dsjupversion/dsjupversion.py | 
+dsjvalidate/dsjvalidate.py
+```
+
 If you clone the repo, you can run this yourself except for posting the dataset to the Dataset-JSON
 API. Write access to the API is limited to keep hosting costs to a minimum.
-
-In addition to running on Linux, this command-line approach should work on MacOS.
 
 Next steps include generating ODM metadata and data to serve as a raw data source for the LZZT study in the 360i
 program.
@@ -90,6 +95,21 @@ or, if you'd like to run it in verbose mode:
 ```
 python 360i.py -v
 ```
+
+By default, the 360i.py program does not run the `dsj2api.py` program since most users do not have an API key. If
+you do have an API key in the `config.ini` file, add the -a option to 360i and it will attempt to post the dataset
+to the Dataset-JSON API. Here's an example:
+```
+python 360i.py -a
+```
+
+You can also run the chained command-line approach on Windows, but there are a few minor changes to the command-line
+needed to make this work. The example below shows an example that can work on Windows:
+```
+python github2dsj\github2dsj.py ie.json --path .\data | dsjupversion\dsjupversion.py | dsjvalidate\dsjvalidate.py
+```
+The use of python3 or python depends on how Python is set up on your system. 
+
 ## Running the Programs Individually
 Instead of running the applications at one time, you can run them from the command-line independently. The next several
 sections provide examples highlighting how to run each of the applications independently.
@@ -122,3 +142,8 @@ application and requires an API key to post or modify data. The -f option provid
 ```
 python3 dsj2api/dsj2api.py -f /home/sam/src/threesixtyeye/data/ie.ndjson -u http://127.0.0.1:8000/ 
 ```
+
+## License
+![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
+This project uses the [MIT](http://www.opensource.org/licenses/MIT "The MIT License | Open Source Initiative") 
+license (see [`LICENSE`](LICENSE)) for code and scripts.
