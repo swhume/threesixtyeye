@@ -84,8 +84,6 @@ def dataset_metadata(study_oid, mdv, ig):
         source_system["name"] = __config.source_system_name
         source_system["version"] = __config.source_system_version
         ds_metadata["sourceSystem"] = source_system
-        # ds_metadata["sourceSystem"]["sourceSystemName"] = __config.source_system_name
-        # ds_metadata["sourceSystem"]["sourceSystemVersion"] = __config.source_system_version
     ds_metadata["studyOID"] = study_oid
     ds_metadata["metaDataVersionOID"] = mdv.OID
     ds_metadata["itemGroupOID"] = ig.OID
