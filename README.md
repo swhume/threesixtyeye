@@ -19,22 +19,26 @@ Eventually, these programs will work together to generate the LZZT SDTM datasets
 Currently, this pipeline retrieves a raw dataset from a GitHub repository, converts the dataset to Dataset-JSON NDJSON
 v1.1, validates the dataset, and posts the dataset to the draft Dataset-JSON API.
 
-## Overview of Programs in the Pipeline
+## Overview of Programs and Supporting Content
 
+Here's a list of the programs and content folders in the repository
 - github2dsj: this program retrieves an LZZT raw dataset file as Dataset-JSON v1.0 from GitHub and saves it to a local directory.
 - dsjupversion: this program converts the retrieved dataset to Dataset-JSON NDJSON v1.1
 - dsjvalidate: this program validates the Dataset-JSON NDJOSN v1.1 dataset using the LinkML model
 - dsj2api: this program posts the upversioned and valid Dataset-JSON v1.1 dataset to a POC Dataset-JSON API
+- shell2ndjson: this program takes a JSON shell Dataset-JSON dataset and transforms that metadata into an NDJSON Dataset-JSON shell dataset.
+- sdw2usdm: this folder contains the LZZT study design spreadsheet import and USDM export for the Study Definitions Workbench (SDW)
 
-This pipeline will be extended and improved in future iterations. New programs and examples will be added every
-couple of weeks.
+The set of programs and content will be extended and improved in future iterations. New programs and examples 
+will be added every couple of weeks.
 
 ## Prerequisites
 
 These programs were developed using Python 3.12 and have not been tested using other versions.
 
-Ensure that the config.ini is present. You will need to rename config-template.ini to config.ini. You will need
-to update the config.ini to use your GitHub token and the path to your threesixtyeye repository. 
+Many programs use configuration settings in the config.ini, so plesae ensure that the config.ini is present. 
+You will need to rename config-template.ini to config.ini. You will need to update the config.ini to use 
+your GitHub token and the path to your threesixtyeye repository. 
 
 Ensure the config.ini includes a RawDataSource section with values for 
 * gh_token: your GitHub token
@@ -55,7 +59,7 @@ dsj2api.py script, make sure the config.ini includes a DSJAPI section with value
 * api_key: the API key is necessary to perform operations other than read
 * base_url: base URL for the Dataset-JSON API
 
-## Example Using the Programs Together from the Command-line
+## Example Running a Pipeline from the Command-line
 The following Linux command-line example retrieves a raw dataset, converts it to Dataset-JSON v1.1 NDJSON, validates the
 dataset, and then posts it to the Dataset-JSON API:
 
@@ -144,6 +148,20 @@ application and requires an API key to post or modify data. The -f option provid
 ```
 python3 dsj2api/dsj2api.py -f /home/sam/src/threesixtyeye/data/ie.ndjson -u http://127.0.0.1:8000/ 
 ```
+
+### shell2ndjson
+This program takes a JSON Dataset-JSON shell dataset (metadata only) and converts it to the equivalent NDJSON format.
+It writes the NDJSON metadatda, or shell dataset, to stdout.
+```
+python3 shell2ndjson.she2ndjson.py /home/sam/src/threesixtyeye/data/shells/ie.json > /home/sam/src/threesixtyeye/data/shells/ie.ndjson 
+```
+
+### sdw2usdm
+This folder contains the inputs and outputs for the [d4k Study Definitions Workbench (SDW)](https://d4k-sdw.fly.dev/) 
+application. It contains:
+* CDISC_Pilot_Study_USDM.xlsx: LZZT study design in a spreadsheet to be imported into SDW
+* usdm.json: LZZT study design as usdm.json exported from the SDW application
+
 
 ## License
 ![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)
