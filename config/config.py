@@ -42,6 +42,11 @@ class AppSettings:
         if config.has_section('Commands'):
             if config.has_option('Commands', 'python'):
                 self.python_command = config.get('Commands', 'python')
+        if config.has_section('SourceSystem'):
+            if config.has_option('SourceSystem', 'name'):
+                self.source_system_name = config.get('SourceSystem', 'name')
+            if config.has_option('SourceSystem', 'version'):
+                self.source_system_version = config.get('SourceSystem', 'version')
 
 
     def _get_config_file(self) -> str:
