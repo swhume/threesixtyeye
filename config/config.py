@@ -47,6 +47,11 @@ class AppSettings:
                 self.source_system_name = config.get('SourceSystem', 'name')
             if config.has_option('SourceSystem', 'version'):
                 self.source_system_version = config.get('SourceSystem', 'version')
+        if config.has_section('Schema'):
+            if config.has_option('Schema', 'odm132'):
+                self.odm132_schema = config.get('Schema', 'odm132')
+            if config.has_option('Schema', 'define20'):
+                self.define20_schema = config.get('Schema', 'define20')
 
 
     def _get_config_file(self) -> str:

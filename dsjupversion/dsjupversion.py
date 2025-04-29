@@ -14,6 +14,7 @@ from ndjsonlib.json_data_file import JsonDataFile
 import ndjsonlib.metadata_file as MF
 import ndjsonlib.data_file as DF
 import ndjsonlib.dataset_name as DN
+
 from dsjversionone import DsjVersionOne
 import dataset as DS
 
@@ -63,14 +64,15 @@ def upversion_dataset(dsj10, file):
     :param file: The full path or filename of the dataset.
     """
     dsn = DN.DatasetName(full_name=str(file))
-    load_dsj_metadata(dsj10, dsn)
-    load_dsj_data(dsj10, dsn)
+    is_filter_data_seq = check_itemgroup_data_seq(dsj10)
+    load_dsj_metadata(dsj10, dsn, is_filter_data_seq)
+    load_dsj_data(dsj10, dsn, is_filter_data_seq)
     dn = DN.DatasetName(full_name=str(file))
     jdf = JsonDataFile(ds_name=dn.get_ds_name(), directory=dn.get_path(), chunk_size=1000)
     jdf.write_full_dataset_from_files()
     return dn.get_full_dataset_filename()
 
-def load_dsj_data(dsj10, dsn):
+def load_dsj_data(dsj10, dsn, is_filter_data_seq):
     """
     Loads data from the original dataset and writes it into an NDJSON data file.
     :param dsj10: A data source object that loads and provides access to the original dataset
@@ -78,12 +80,14 @@ def load_dsj_data(dsj10, dsn):
     """
     dsj_dataset = []
     for row in dsj10.get_data_rows():
+        if is_filter_data_seq:
+            row.pop(0)
         dsj_dataset.append(row)
-    df = DF.DataFile(filename=dsn.get_data_filename() , chunk_size=1000,
+    df = DF.DataFile(filename=dsn.get_data_filename(), chunk_size=1000,
                      row_data=DS.RowData(rows=dsj_dataset))
     df.write_file()
 
-def load_dsj_metadata(dsj10, dsn):
+def load_dsj_metadata(dsj10, dsn, is_filter_data_seq=True):
     """
     Loads the metadata from the original dataset, processes the metadata, and writes it to an
     NDJSON metadata dataset file.
@@ -104,12 +108,12 @@ def load_dsj_metadata(dsj10, dsn):
         records=dsj10.get_records(),
         name=dsj10.get_dataset_name(),
         label=dsj10.get_dataset_label(),
-        columns=get_column_metadata(dsj10)
+        columns=get_column_metadata(dsj10, is_filter_data_seq)
     )
     mf = MF.MetadataFile(dsn.get_metadata_filename(), dataset_metadata=dsj_metadata)
     mf.write_file()
 
-def get_column_metadata(dsj10):
+def get_column_metadata(dsj10, is_filter_data_seq=True):
     """
     Loads the metadata for each column in the original dataset
     :param dsj10: An object that loads and provides access to the original dataset metadata and data
@@ -118,6 +122,9 @@ def get_column_metadata(dsj10):
     """
     column_metadata = []
     for column in dsj10.get_variable_metadata():
+        # DSJ v1.0 has an added column ITEMGROUPDATASEQ - skip it for v1.1
+        if is_filter_data_seq and column["OID"] == "ITEMGROUPDATASEQ":
+            continue
         dsj_column = DS.Column(
             itemOID=column["OID"],
             name=column["name"],
@@ -130,6 +137,20 @@ def get_column_metadata(dsj10):
         )
         column_metadata.append(dsj_column)
     return column_metadata
+
+def check_itemgroup_data_seq(dsj10) -> bool:
+    """
+    DSJ v1.0 has an added column ITEMGROUPDATASEQ - skip it for v1.1. This function checks
+    for ITEMGROUPDATASEQ as the first column in the dataset so it can be filtered out later.
+    dsj10: An object that loads and provides access to the original dataset metadata and data
+    """
+    is_item_group_data_seq = False
+    columns = get_column_metadata(dsj10, False)
+    if columns and columns[0].itemOID is not None:
+        if columns[0].itemOID == "ITEMGROUPDATASEQ":
+            is_item_group_data_seq = True
+    return is_item_group_data_seq
+
 
 def load_original_dataset(file):
     """
