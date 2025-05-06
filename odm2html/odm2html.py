@@ -1,5 +1,6 @@
 from lxml import etree
 from pathlib import Path
+import sys
 
 SCRIPT_DIR = Path.cwd()
 sys.path.append(str(SCRIPT_DIR))
@@ -7,11 +8,9 @@ from config.config import AppSettings as CFG
 
 __config = CFG()
 
-ODM_PATH = Path(__file__).parent.joinpath("data")
-# ODM_METADATA_FILE = ODM_PATH.joinpath("odm_metadata_lzzt.xml")
-ODM_METADATA_FILE = ODM_PATH.joinpath("ie-odm.xml")
+ODM_METADATA_FILE = Path(__config.data_path).joinpath("ie-odm.xml")
 STYLESHEET_FILE = Path(__file__).parent.joinpath("crf_1_3_2.xsl")
-OUTPUT_FILE = ODM_PATH.joinpath("odm_360i.html")
+OUTPUT_FILE = Path(__config.data_path).joinpath("odm_360i_cosa.html")
 
 
 def transform_xml(xml_path, xsl_path, output_path=OUTPUT_FILE):
@@ -36,11 +35,8 @@ def transform_xml(xml_path, xsl_path, output_path=OUTPUT_FILE):
         print(etree.tostring(result_tree, pretty_print=True).decode())
 
 
-
-
 def main():
     transform_xml(ODM_METADATA_FILE, STYLESHEET_FILE, OUTPUT_FILE)
-
 
 if __name__ == "__main__":
     main()

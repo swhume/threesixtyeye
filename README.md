@@ -16,9 +16,6 @@ development work in support of the 360i program.
 
 Eventually, these programs will work together to generate the LZZT SDTM datasets and conformance report.
 
-Currently, this pipeline retrieves a raw dataset from a GitHub repository, converts the dataset to Dataset-JSON NDJSON
-v1.1, validates the dataset, and posts the dataset to the draft Dataset-JSON API.
-
 ## Overview of Programs and Supporting Content
 
 Here's a list of the programs and content folders in the repository
@@ -28,6 +25,13 @@ Here's a list of the programs and content folders in the repository
 - dsj2api: this program posts the upversioned and valid Dataset-JSON v1.1 dataset to a POC Dataset-JSON API
 - shell2ndjson: this program takes a JSON shell Dataset-JSON dataset and transforms that metadata into an NDJSON Dataset-JSON shell dataset.
 - sdw2usdm: this folder contains the LZZT study design spreadsheet import and USDM export for the Study Definitions Workbench (SDW)
+- odmvalidate: this program validates ODM files against the ODM v1.3.2 schema
+- odm2html: this folder contains 2 methods for creating an HTML visualization of ODM CRF metadata. One uses a stylesheet and one uses a Python library.
+- define2shell: this program generates a Dataset-JSON shell dataset from the Define-XML metadata
+- usdm2bc: runs a query to retrieve the biomedical concepts from the usdm.json export
+- bc2dss: looks up the dataset specializations for each biomedical concept
+- usdm2ti: Extracts the TI dataset content from the usdm.json export and generates a ti.json output
+- ti2ie: generates a TI CRF using the TI content in ti.json - other metadata is hardcoded as a template in this example
 
 The set of programs and content will be extended and improved in future iterations. New programs and examples 
 will be added every couple of weeks.
