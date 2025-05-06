@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ODM FileOID="IE Criteria Not Met" FileType="Snapshot" CreationDateTime="2021-05-18T15:53:11-06:00" ODMVersion="1.3.2" Originator="Formedix" SourceSystem="Data Acquisition Designer" SourceSystemVersion="4.8.0" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns="http://www.cdisc.org/ns/odm/v1.3">
+	<Study OID="IE Criteria Not Met">
+		<GlobalVariables>
+			<StudyName>360i-lzzt-ie</StudyName>
+			<StudyDescription>360i LZZT IE CRF</StudyDescription>
+			<ProtocolName>360i LZZT</ProtocolName>
+		</GlobalVariables>
+		<BasicDefinitions/>
+
+		<MetaDataVersion OID="MDV.360i.IE.CRF" Name="360i IE CRF">
+			<FormDef OID="F.IE" Name="Form IE - Inclusion/Exclusion Criteria Not Met" Repeating="No">
+				<Description>
+					<TranslatedText xml:lang="en">IE - Inclusion/Exclusion Criteria Not Met</TranslatedText>
+				</Description>
+                <ItemGroupRef ItemGroupOID="IG.COMMON" Mandatory="No" OrderNumber="1"/>
+				<ItemGroupRef ItemGroupOID="IG.IE.Header" Mandatory="No" OrderNumber="2"/>
+				<ItemGroupRef ItemGroupOID="IG.IE.IENotMet" Mandatory="No" OrderNumber="3"/>
+			</FormDef>
+
+			<ItemGroupDef OID="IG.IE.IENotMet" Name="IE - Inclusion/Exclusion Criteria Not Met" Repeating="Yes" Domain="IE">
+				<Description>
+					<TranslatedText xml:lang="en">IE - Inclusion/Exclusion Criteria Not Met</TranslatedText>
+				</Description>
+				<ItemRef ItemOID="IT.IECAT" Mandatory="No" OrderNumber="1"/>
+				<ItemRef ItemOID="IT.IETESTCD" Mandatory="No" OrderNumber="2"/>
+			</ItemGroupDef>
+
+			<ItemGroupDef OID="IG.IE.Header" Name="IE - Inclusion/Exclusion Criteria Not Met" Repeating="No" Domain="IE">
+				<Description>
+					<TranslatedText xml:lang="en">IE - Inclusion/Exclusion Criteria Not Met</TranslatedText>
+				</Description>
+				<ItemRef ItemOID="IT.IEYN" Mandatory="No" OrderNumber="1"/>
+				<ItemRef ItemOID="IT.IEDAT" Mandatory="No" OrderNumber="2"/>
+			</ItemGroupDef>
+
+			<ItemDef OID="IT.IETESTCD" Name="IETESTCD" DataType="text" Length="25">
+				<Description>
+					<TranslatedText xml:lang="en">IETESTCD</TranslatedText>
+				</Description>
+				<Question>
+					<TranslatedText xml:lang="en">What was the identifier of the inclusion criterion the subject did not meet or the exclusion criterion the subject met?</TranslatedText>
+				</Question>
+				<CodeListRef CodeListOID="CL.IETESTCD"/>
+				<Alias Context="prompt" Name="Exception Criterion Identifier"/>
+				<Alias Context="completionInstructions" Name="If the subject was not eligible, Record the identifying code for each criterion that was an exception."/>
+				<Alias Context="implementationNotes" Name="This field is required to appear on the CRF, but may be null if there are no exceptions to the inclusion/exclusion criteria. The CRF should allow multiple exceptions to be recorded. See SDTMIG v3.2 Section 7.5.2 for assumptions regarding protocol versioning. Sponsors may provide a list of inclusion/ exclusion criteria and the unique identifying codes to the site. The list provided should be versioned/updated when the protocol changes and the criteria are changed. Sponsors should use sponsor-developed controlled terminology for IETESTCD."/>
+				<Alias Context="mappingInstructions" Name="Maps directly to the SDTMIG variable listed in the column with the heading SDTMIG Target."/>
+				<Alias Name="IETESTCD" Context="CDASH"/>
+			</ItemDef>
+
+			<ItemDef OID="IT.IEYN" Name="IEYN" DataType="text" Length="3">
+				<Description>
+					<TranslatedText xml:lang="en">IEYN</TranslatedText>
+				</Description>
+				<Question>
+					<TranslatedText xml:lang="en">Were all eligibility criteria met?</TranslatedText>
+				</Question>
+				<CodeListRef CodeListOID="CL.C66742.NY.NY"/>
+				<Alias Context="prompt" Name="Met Criteria"/>
+				<Alias Context="completionInstructions" Name="Record Yes if all eligibility criteria were met at the time the subject was enrolled. Record No if subject did not meet all criteria at the time the subject was enrolled."/>
+				<Alias Context="implementationNotes" Name="The intent/purpose of collecting this field is to help with data cleaning and monitoring. It provides verification if all other fields on the CRF were deliberately left blank."/>
+				<Alias Context="mappingInstructions" Name="Does not map to an SDTMIG variable. The SDTM aCRF is annotated to indicate that this field is NOT SUBMITTED."/>
+				<Alias Name="IEYN" Context="CDASH"/>
+			</ItemDef>
+
+			<ItemDef OID="IT.IEDAT" Name="IEDAT" DataType="date">
+				<Description>
+					<TranslatedText xml:lang="en">IEDAT</TranslatedText>
+				</Description>
+				<Question>
+					<TranslatedText xml:lang="en">What was the date the eligibility criteria assessment was performed?</TranslatedText>
+				</Question>
+				<Alias Context="prompt" Name="Date"/>
+				<Alias Context="completionInstructions" Name="Record complete date when the eligibility assessment was performed using this format (DD-MON-YYYY)."/>
+				<Alias Context="implementationNotes" Name="A complete date is expected. The date of collection may be determined from the date of visit (VISDAT) and if so, a separate assessment date field is not required."/>
+				<Alias Context="mappingInstructions" Name="This does not map directly to an SDTMIG variable. For the SDTM submission dataset, concatenate all collected CDASH DATE and TIME components and populate the SDTMIG variable IEDTC in ISO 8601 format."/>
+				<Alias Name="IEDAT" Context="CDASH"/>
+			</ItemDef>
+
+			<ItemDef OID="IT.IECAT" Name="IECAT" DataType="text" Length="15">
+				<Description>
+					<TranslatedText xml:lang="en">IECAT</TranslatedText>
+				</Description>
+				<Question>
+					<TranslatedText xml:lang="en">What was the category of the criterion?</TranslatedText>
+				</Question>
+				<CodeListRef CodeListOID="CL.IECAT"/>
+				<Alias Context="prompt" Name="Criterion Type"/>
+				<Alias Context="completionInstructions" Name="Record whether the criterion exception was Inclusion or Exclusion. Checkbox: Check Inclusion or Exclusion."/>
+				<Alias Context="implementationNotes" Name="These categories have been defined in SDTM and have controlled terminology that must be used. Only records for criteria that are not met appear in the IE SDTMIG domain. IECAT must be populated. This criterion category may be collected on the CRF in a checkbox format or it may be included as part of the Criterion Identification and mapped when the SDTM submission datasets are created."/>
+				<Alias Context="mappingInstructions" Name="Maps directly to the SDTMIG variable listed in the column with the heading SDTMIG Target."/>
+				<Alias Name="IECAT" Context="CDASH"/>
+			</ItemDef>
+
+			<CodeList OID="CL.C66742.NY.NY" Name="No Yes Response Only" DataType="text">
+				<Description>
+					<TranslatedText>A term that is used to indicate a question with permissible values of yes/no/unknown/not applicable.</TranslatedText>
+				</Description>
+				<CodeListItem CodedValue="N" OrderNumber="1">
+					<Decode>
+						<TranslatedText>No</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="Y" OrderNumber="2">
+					<Decode>
+						<TranslatedText>Yes</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<Alias Context="nci:ExtCodeID" Name="C66742"/>
+			</CodeList>
+
+			<CodeList OID="CL.IECAT" Name="Inclusion/Exclusion Category" DataType="text">
+				<CodeListItem CodedValue="Inclusion" OrderNumber="1">
+					<Decode>
+						<TranslatedText>INCLUSION</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="Exclusion" OrderNumber="2">
+					<Decode>
+						<TranslatedText>EXCLUSION</TranslatedText>
+					</Decode>
+				</CodeListItem>
+                <Alias Context="nci:ExtCodeID" Name="C66797"/>
+			</CodeList>
+
+			<CodeList OID="CL.IETESTCD" Name="Inclusion/Exclusion Criteria" DataType="text">
+				<CodeListItem CodedValue="INCL01" OrderNumber="1">
+					<Decode>
+						<TranslatedText>At Least 50 Years Old and Postmenopausal</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="INCL02" OrderNumber="2">
+					<Decode>
+						<TranslatedText>Diagnosis of probable AD</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="INCL03" OrderNumber="3">
+					<Decode>
+						<TranslatedText>MMSE score of 10 to 23</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="INCL04" OrderNumber="4">
+					<Decode>
+						<TranslatedText>MHIS Score Less Than or Equal to 5</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="INCL05" OrderNumber="5">
+					<Decode>
+						<TranslatedText>CNS Imaging Compatible with AD Past Year</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="INCL06" OrderNumber="6">
+					<Decode>
+						<TranslatedText>Consent Signed by Patient and Caregiver</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="INCL07" OrderNumber="7">
+					<Decode>
+						<TranslatedText>Proximate to Inv Site for Follow-up</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="INCL08" OrderNumber="8">
+					<Decode>
+						<TranslatedText>Reliable Caregiver</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL09" OrderNumber="9">
+					<Decode>
+						<TranslatedText>Previous Exposure to Xanomeline Study</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL10" OrderNumber="10">
+					<Decode>
+						<TranslatedText>Treatment with Restricted Med Past Month</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL11" OrderNumber="11">
+					<Decode>
+						<TranslatedText>Serious Hosp Illness Past 3 Months</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL12" OrderNumber="12">
+					<Decode>
+						<TranslatedText>Serious Neurological Condition Diagnosis</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL13" OrderNumber="13">
+					<Decode>
+						<TranslatedText>Depression Episode Within Past 3 Months</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL14" OrderNumber="14">
+					<Decode>
+						<TranslatedText>Mental Illness Within Past 5 Years</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL15" OrderNumber="15">
+					<Decode>
+						<TranslatedText>Syncope History Past 5 Years</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL16" OrderNumber="16">
+					<Decode>
+						<TranslatedText>Screening ECG Evidence Listed Conditions</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL17" OrderNumber="17">
+					<Decode>
+						<TranslatedText>Serious Cardiovascular Disorder</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL18" OrderNumber="18">
+					<Decode>
+						<TranslatedText>Serious Gastrointestinal Disorder 5 Yrs</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL19" OrderNumber="19">
+					<Decode>
+						<TranslatedText>Serious Respiratory Disorder Past 5 Yrs</TranslatedText>
+					</Decode>
+				</CodeListItem>
+			    <CodeListItem CodedValue="EXCL20" OrderNumber="20">
+					<Decode>
+						<TranslatedText>Serious Genitourinary Disorder 5 Yrs</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL21" OrderNumber="21">
+					<Decode>
+						<TranslatedText>Serious Rheumatologic Disorder Past 5 Yr</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL22" OrderNumber="22">
+					<Decode>
+						<TranslatedText>HIV Within Past 5 Years</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL23" OrderNumber="23">
+					<Decode>
+						<TranslatedText>Serious Infections Disease Past 5 Yrs</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL24" OrderNumber="24">
+					<Decode>
+						<TranslatedText>Primary or Recurrent Malignant Disease</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL25" OrderNumber="25">
+					<Decode>
+						<TranslatedText>Impaired Visual, Hearing, Communication</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL26" OrderNumber="26">
+					<Decode>
+						<TranslatedText>Labs out of reference range</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL27" OrderNumber="27">
+					<Decode>
+						<TranslatedText>Folate, B12, Thyroid Lab Out Ref Range</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL28" OrderNumber="28">
+					<Decode>
+						<TranslatedText>Confirmed Syphilis</TranslatedText>
+					</Decode>
+				</CodeListItem>
+				<CodeListItem CodedValue="EXCL29" OrderNumber="29">
+					<Decode>
+						<TranslatedText>A1C Lab Above Reference Range</TranslatedText>
+					</Decode>
+				</CodeListItem>
+			</CodeList>
+		</MetaDataVersion>
+	</Study>
+</ODM>

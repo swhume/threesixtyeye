@@ -52,6 +52,11 @@ class AppSettings:
                 self.odm132_schema = config.get('Schema', 'odm132')
             if config.has_option('Schema', 'define20'):
                 self.define20_schema = config.get('Schema', 'define20')
+        if config.has_section('LibraryAPI'):
+            if config.has_option('LibraryAPI', 'clib_api_key'):
+                self.clib_api_key = config.get('LibraryAPI', 'clib_api_key')
+            if config.has_option('LibraryAPI', 'clib_base_url'):
+                self.clib_base_url = config.get('LibraryAPI', 'clib_base_url')
 
 
     def _get_config_file(self) -> str:
