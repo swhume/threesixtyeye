@@ -95,7 +95,8 @@ def github_get_file(username, repository_name, file_path, dataset_file_out, gith
             blob_response = requests.get(blob_url, headers=headers)
             blob_response.raise_for_status()
             blob_data = blob_response.json()
-            file_content = base64.b64decode(blob_data["content"]).decode("utf-8")
+            large_file_content = base64.b64decode(blob_data["content"]).decode("utf-8")
+            file_content = json.loads(large_file_content)
         else:
             # use GitHub contents API for smaller files
             content_url = file_data['download_url']
