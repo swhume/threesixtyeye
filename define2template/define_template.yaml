@@ -1,0 +1,688 @@
+id: https://w3id.org/threesixtyeye/define-template
+name: define-template
+license: MIT
+version: 0.1.0
+
+title: Define Template Schema
+description: >-
+  A LinkML schema for representing clinical study data definitions in the CDISC Define-XML format.
+  This schema is based on the JSON structure in define-lzzt-template.json and provides a comprehensive
+  model for representing study metadata, datasets, variables, codelists, and other components of
+  clinical study data definitions.
+
+see_also:
+  - https://www.cdisc.org/standards/data-exchange/define-xml
+
+keywords:
+  - clinical trials
+  - CDISC
+  - Define-XML
+  - metadata
+  - data standards
+
+#contributors:
+#  - github_name: threesixtyeye
+
+#generation_date: 2023-11-15
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  define: https://w3id.org/threesixtyeye/define-template/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: define
+default_range: string
+
+imports:
+  - linkml:types
+
+
+#types:
+#  YesNoType:
+#    description: A type for Yes/No values
+#    enum_range: YesNoEnum
+#
+#  DataTypeEnum:
+#    description: Enumeration of data types
+#    enum_range: DataTypeEnumeration
+#
+#  StandardTypeEnum:
+#    description: Enumeration of standard types
+#    enum_range: StandardTypeEnumeration
+#
+#  DatasetClassEnum:
+#    description: Enumeration of dataset classes
+#    enum_range: DatasetClassEnumeration
+#
+#  VariableRoleEnum:
+#    description: Enumeration of variable roles
+#    enum_range: VariableRoleEnumeration
+#
+#  ComparatorEnum:
+#    description: Enumeration of comparator types
+#    enum_range: ComparatorEnumeration
+
+enums:
+  YesNoEnum:
+    description: Enumeration of Yes/No values
+    permissible_values:
+      "Yes":
+        description: Yes value
+      "No":
+        description: No value
+      "null":
+        description: Null value
+
+  DataTypeEnumeration:
+    description: Enumeration of data types
+    permissible_values:
+      text:
+        description: Text data type
+      integer:
+        description: Integer data type
+      float:
+        description: Float data type
+      date:
+        description: Date data type
+      datetime:
+        description: Date and time data type
+      time:
+        description: Time data type
+      boolean:
+        description: Boolean data type
+
+  StandardTypeEnumeration:
+    description: Enumeration of standard types
+    permissible_values:
+      IG:
+        description: Implementation Guide
+      CT:
+        description: Controlled Terminology
+
+  DatasetClassEnumeration:
+    description: Enumeration of dataset classes
+    permissible_values:
+      "TRIAL DESIGN":
+        description: Trial design dataset
+      "SPECIAL PURPOSE":
+        description: Special purpose dataset
+      "INTERVENTIONS":
+        description: Interventions dataset
+      "EVENTS":
+        description: Events dataset
+      "FINDINGS":
+        description: Findings dataset
+      "FINDINGS ABOUT":
+        description: Findings about dataset
+      "RELATIONSHIP":
+        description: Relationship dataset
+      "STUDY REFERENCE":
+        description: Study reference dataset
+
+  VariableRoleEnumeration:
+    description: Enumeration of variable roles
+    permissible_values:
+      Identifier:
+        description: Identifier role
+      Topic:
+        description: Topic role
+      "Synonym Qualifier":
+        description: Synonym qualifier role
+      Timing:
+        description: Timing role
+      "Record Qualifier":
+        description: Record qualifier role
+      Rule:
+        description: Rule role
+      Result:
+        description: Result roleEnum
+      Variable:
+        description: Variable role
+
+  ComparatorEnumeration:
+    description: Enumeration of comparator types
+    permissible_values:
+      EQ:
+        description: Equal to
+      NE:
+        description: Not equal to
+      LT:
+        description: Less than
+      LE:
+        description: Less than or equal to
+      GT:
+        description: Greater than
+      GE:
+        description: Greater than or equal to
+      IN:
+        description: In a set of values
+      NOTIN:
+        description: Not in a set of values
+
+classes:
+  DefineTemplate:
+    tree_root: true
+    description: Root class representing the entire define-lzzt-template structure
+    attributes:
+      Study:
+        description: Basic study information
+        range: Study
+      Standards:
+        description: List of standard definitions used in the study
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Standard
+      Datasets:
+        description: List of dataset definitions
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Dataset
+      Variables:
+        description: List of variable definitions
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Variable
+      ValueLevel:
+        description: value-level metadata
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: VLM
+      WhereClauses:
+        description: List of where clause definitions
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: WhereClause
+      CodeLists:
+        description: List of code list definitions
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: CodeList
+      Dictionaries:
+        description: List of dictionary definitions
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Dictionary
+      Methods:
+        description: List of method definitions
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Method
+      Comments:
+        description: List of comment definitions
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Comment
+      Documents:
+        description: List of document references
+        multivalued: true
+        inlined: true
+        inlined_as_list: true
+        range: Document
+
+  Study:
+    description: Basic study information
+    attributes:
+      studyName:
+        description: Name of the study
+        required: true
+      studyDescription:
+        description: Description of the study
+        required: true
+      protocolName:
+        description: Name of the protocol
+        required: true
+      language:
+        description: Language used in the study
+        required: true
+        pattern: "^[a-z]{2}$"  # ISO 639-1 language code
+      annotatedCRF:
+        description: Reference to annotated CRF
+        range: Document
+        inlined: false
+
+  Standard:
+    description: Standard definition used in the study
+    attributes:
+      oid:
+        description: Object identifier for the standard
+        identifier: true
+        required: true
+        pattern: "^STD\\.[0-9_]+$"  # Pattern observed in the JSON
+      name:
+        description: Name of the standard
+        required: true
+      type:
+        description: Type of the standard (e.g., IG, CT)
+        required: true
+        range: StandardTypeEnum
+      publishingSet:
+        description: Publishing set of the standard
+      version:
+        description: Version of the standard
+        required: true
+      status:
+        description: Status of the standard
+        required: true
+      comment:
+        description: Comment reference for the standard
+        range: Comment
+        inlined: false
+
+  Dataset:
+    description: Dataset definition
+    attributes:
+      oid:
+        description: Object identifier for the dataset
+        identifier: true
+        required: true
+        pattern: "^IG\\.[A-Z]+$"  # Pattern observed in the JSON
+      name:
+        description: Name of the dataset
+        required: true
+      description:
+        description: Description of the dataset
+        required: true
+      class:
+        description: Class of the dataset (e.g., TRIAL DESIGN, SPECIAL PURPOSE)
+        required: true
+        range: DatasetClassEnum
+      structure:
+        description: Structure of the dataset
+        required: true
+      purpose:
+        description: Purpose of the dataset
+        required: true
+      repeating:
+        description: Whether the dataset is repeating
+        required: true
+        range: YesNoEnum
+#        range: YesNoType
+      referenceData:
+        description: Whether the dataset is reference data
+        required: true
+        range: YesNoEnum
+#        range: YesNoType
+      comment:
+        description: Comment reference for the dataset
+        range: Comment
+        inlined: false
+      isNonStandard:
+        description: Whether the dataset is non-standard
+        required: false
+        range: YesNoEnum
+#        range: YesNoType
+      standardOid:
+        description: Reference to the standard used for the dataset
+        required: true
+        range: Standard
+        inlined: false
+
+  Variable:
+    description: Variable definition
+    attributes:
+      oid:
+        description: Object identifier for the variable
+        identifier: true
+        required: true
+        pattern: "^IT\\.[A-Z]+\\.[A-Z]+$"  # Pattern observed in the JSON
+      order:
+        description: Order of the variable
+        range: integer
+        required: false
+      dataset:
+        description: Dataset the variable belongs to
+        required: true
+      name:
+        description: Name of the dataset the variable belongs to
+        required: true
+      variable:
+        description: Name of the variable
+        required: true
+      label:
+        description: Label of the variable
+        required: true
+      dataType:
+        description: Data type of the variable
+        required: true
+        range: DataTypeEnum
+      length:
+        description: Length of the variable
+        range: integer
+        required: false
+      significantDigits:
+        description: Number of significant digits for the variable
+        range: integer
+      format:
+        description: Format of the variable
+      keySequence:
+        description: Key sequence of the variable
+        range: integer
+      mandatory:
+        description: Whether the variable is mandatory
+        required: true
+        range: YesNoEnum
+      codelist:
+        description: Reference to the codelist used for the variable
+        range: CodeListItem
+        inlined: false
+      value_list:
+        description: Reference to the value list used for the variable
+      originType:
+        description: Origin type of the variable
+      originSrc:
+        description: Origin source of the variable
+      pages:
+        description: Pages reference for the variable
+      method:
+        description: Reference to the method used for the variable
+        range: Method
+        inlined: false
+      predecessor:
+        description: Predecessor of the variable
+      role:
+        description: Role of the variable
+        range: VariableRoleEnum
+      comment:
+        description: Comment reference for the variable
+        range: Comment
+        inlined: false
+      isNonStandard:
+        description: Whether the variable is non-standard
+        range: YesNoEnum
+      hasNoData:
+        description: Whether the variable has no data
+        range: YesNoEnum
+
+  VLM:
+    description: Value level metadata definition
+    attributes:
+      oid:
+        description: Object identifier for the variable
+        identifier: true
+        required: true
+      order:
+        description: Order of the variable
+        range: integer
+        required: true
+      dataset:
+        description: Dataset the variable belongs to
+        required: true
+      variable:
+        description: Name of the variable
+        required: true
+      itemOid:
+        description: item OID
+        required: true
+      whereClause:
+        description: where clause OID
+        required: true
+      dataType:
+        description: Data type of the variable
+        required: true
+        range: DataTypeEnum
+      length:
+        description: Length of the variable
+        range: integer
+      significantDigits:
+        description: Number of significant digits for the variable
+        range: integer
+      format:
+        description: Format of the variable
+      mandatory:
+        description: Whether the variable is mandatory
+        required: true
+        range: YesNoEnum
+      codelist:
+        description: Reference to the codelist used for the variable
+        range: CodeListItem
+        inlined: false
+      originType:
+        description: Origin type of the variable
+        required: true
+      originSource:
+        description: Origin source of the variable
+        required: true
+      pages:
+        description: Pages reference for the variable
+      method:
+        description: Reference to the method used for the variable
+        range: Method
+        inlined: false
+      predecessor:
+        description: Predecessor of the variable
+      comment:
+        description: Comment reference for the variable
+        range: Comment
+        inlined: false
+
+  WhereClause:
+    description: Where clause definition
+    attributes:
+      oid:
+        description: Object identifier for the where clause
+        identifier: true
+        required: true
+      dataset:
+        description: Dataset the where clause applies to
+        required: true
+      variable:
+        description: Variable the where clause applies to
+        required: true
+      comparator:
+        description: Comparator used in the where clause
+        required: true
+        range: ComparatorEnum
+      value:
+        description: Value used in the where clause
+        required: true
+      comment:
+        description: Comment reference for the where clause
+        range: Comment
+        inlined: false
+
+  CodeList:
+    description: Code list item definition
+    attributes:
+      oid:
+        description: Object identifier for the code list
+        required: true
+      name:
+        description: Name of the code list
+        required: true
+      cl_c_code:
+        description: C-code for the code list
+      dataType:
+        description: Data type of the code list
+        required: true
+        range: DataTypeEnum
+      order:
+        description: Order of the code list item
+        range: integer
+        required: true
+      term:
+        description: Term of the code list item
+        required: true
+      nci_term_code:
+        description: NCI term code for the code list item
+      decoded_value:
+        description: Decoded value of the code list item
+        required: true
+      comment:
+        description: Comment reference for the code list item
+        range: Comment
+        inlined: false
+      isNonStandard:
+        description: Whether the code list item is non-standard
+        range: YesNoEnum
+#        range: YesNoType
+      standardOid:
+        description: Reference to the standard used for the code list item
+        range: Standard
+        inlined: false
+
+  Dictionary:
+    description: dictionary
+    attributes:
+      oid:
+        description: Object identifier for the method
+        identifier: true
+        required: true
+      name:
+        description: Name of the method
+        required: true
+      dataType:
+        description: Data type of the variable
+        required: true
+        range: DataTypeEnum
+      dictionary:
+        description: name of the dictionary
+        required: true
+      version:
+        description: version of the dictionary
+        required: true
+
+  Method:
+    description: Method definition
+    attributes:
+      oid:
+        description: Object identifier for the method
+        identifier: true
+        required: true
+      name:
+        description: Name of the method
+        required: true
+      type:
+        description: Type of the method
+        required: true
+      description:
+        description: Description of the method
+        required: true
+      language:
+        description: Language used in the method
+      comment:
+        description: Comment reference for the method
+        range: Comment
+        inlined: false
+
+  Comment:
+    description: Comment definition
+    attributes:
+      oid:
+        description: Object identifier for the comment
+        identifier: true
+        required: true
+        pattern: "^COM\\.[A-Z0-9]+$"  # Pattern observed in the JSON
+      comment:
+        description: Text of the comment
+        required: true
+
+  Document:
+    description: Document reference
+    attributes:
+      id:
+        description: Object identifier for the document
+        identifier: true
+        required: true
+        pattern: "^LF\\.[a-z]+$"  # Pattern observed in the JSON
+      title:
+        description: Document title
+        required: true
+      href:
+        description: Hyperlink reference to the document
+        required: true
+
+slots:
+  oid:
+    description: Object identifier
+    identifier: true
+
+  name:
+    description: Name of an entity
+
+  description:
+    description: Description of an entity
+
+  comment:
+    description: Comment or reference to a comment
+
+  standardOid:
+    description: Reference to a standard
+    range: Standard
+    inlined: false
+
+# Example of how to use this schema
+#examples:
+#  define_example:
+#    description: A simple example of a clinical study data definition
+#    value:
+#      study:
+#        studyName: "CDISCPILOT01"
+#        studyDescription: "Study Data Tabulation Model Metadata Submission Guidelines Sample Study"
+#        protocolName: "CDISCPILOT01"
+#        language: "en"
+#        annotatedCRF: "LF.acrf"
+#      standards:
+#        - oid: "STD.1"
+#          name: "STDTMIG"
+#          type: "IG"
+#          publishingSet: ""
+#          version: "3.3"
+#          status: "Final"
+#          comment: "COM.ST1"
+#      datasets:
+#        - oid: "IG.DM"
+#          name: "DM"
+#          description: "Demographics"
+#          class: "SPECIAL PURPOSE"
+#          structure: "One record per subject"
+#          purpose: "Tabulation"
+#          repeating: "No"
+#          referenceData: "No"
+#          standardOid: "STD.1"
+#      variables:
+#        - oid: "IT.DM.STUDYID"
+#          order: 1
+#          dataset: "DM"
+#          name: "DM"
+#          variable: "STUDYID"
+#          label: "Study Identifier"
+#          dataType: "text"
+#          length: 12
+#          mandatory: "Yes"
+#          role: "Identifier"
+#      whereClauses:
+#        - oid: "WC.AESER"
+#          dataset: "AE"
+#          variable: "AESER"
+#          comparator: "EQ"
+#          value: "Y"
+#      codeLists:
+#        - oid: "CL.ACN"
+#          name: "Action Taken with Study Treatment"
+#          dataType: "text"
+#          order: 1
+#          term: "DOSE INCREASED"
+#          decoded_value: "Dose Increased"
+#          standardOid: "STD.3"
+#      methods:
+#        - oid: "MT.EPOCH"
+#          name: "Algorithm to derive Epoch"
+#          type: "Computation"
+#          description: "Algorithm to derive Epoch based on VISITNUM"
+#      comments:
+#        - oid: "COM.ST1"
+#          comment: "Implementation Guide for SDTM"
+#      documents:
+#        - oid: "LF.acrf"
+#          name: "Annotated CRF"
+#          href: "acrf.pdf"
+#          type: "Annotated CRF"
